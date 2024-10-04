@@ -1,0 +1,41 @@
+import string
+class WordsFinder:
+
+    def __init__(self, *file_names):
+        self.file_names = file_names
+
+    def get_all_words(self):
+        all_words = {}
+        for file_names in self.file_names:
+            with (open(file_names, 'r', encoding='utf-8') as f):
+                a = f.read().lower()
+                trans_ = str.maketrans(',', ',', string.punctuation + '-')
+                a = a.translate(trans_)
+                aa = a.split()
+                all_words[file_names] = aa
+        return all_words
+
+    def find(self, word):
+        find_words = {}
+        word = word.lower()
+        for file_names, words in self.get_all_words().items():
+                if word in words:
+                  find_words[file_names] = words.index(word)
+                return word, find_words
+
+    def count(self, word):
+     #  all_words = self.get_all_words()
+        count_words = {}
+        word = word.lower()
+        for file_names, words in self.get_all_words().items():
+            count_words[file_names] = words.count(word)
+        return count_words
+
+
+
+if __name__ == '__main__':
+    finder2 = WordsFinder('C:/Users/AMCV/PycharmProjects/First/.venv/test_file.txt')
+    print(finder2.get_all_words())  # Все слова
+    print(finder2.find('TEXT'))  # 3 слово по счёту
+    print(finder2.count('teXT'))  # 4 слова teXT в тексте всего
+
